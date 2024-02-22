@@ -1,11 +1,7 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 export default function Home() {
-  const [hoverWork, setHoverWork] = useState(false);
-  const [hoverPlay, setHoverPlay] = useState(false);
-  const [hoverAbout, setHoverAbout] = useState(false);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -30,103 +26,107 @@ export default function Home() {
 
   return (
     <div className="w-screen h-screen flex flex-col gap-4 justify-center items-center bg-zinc-100">
-      <div className="absolute bottom-4 left-4">
-        <NameSVG />
+      <NameSVG />
+
+      <div className="font-rounded text-zinc-400">
+        Illustrator & Graphic Designer
       </div>
-
-      <AnimatePresence>
-        {hoverWork && (
+      <motion.div
+        className="flex gap-4 mt-4"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {['Work', 'Play', 'About'].map((item, index) => (
           <motion.div
-            className="absolute h-[70%] text-zinc-400 flex justify-center items-center font-rounded rounded-xl shadow-lg left-0 w-[30%] m-4 bg-white"
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
+            key={index}
+            className="bg-white h-max font-rounded select-none cursor-pointer px-2 py-1 rounded-lg text-zinc-600"
             variants={itemVariants}
+            whileTap={{
+              boxShadow: '0px 0px 0px #E5E5E5',
+            }}
+            transition={{
+              duration: 0.2,
+            }}
+            style={{
+              boxShadow: '0px 4px 0px #E5E5E5',
+            }}
           >
-            Content for Work
+            {item}
           </motion.div>
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {hoverPlay && (
-          <motion.div
-            className="absolute h-[70%] text-zinc-400 flex justify-center items-center font-rounded rounded-xl shadow-lg w-[30%] m-4 bg-white"
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            variants={itemVariants}
-          >
-            Content for Play
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {hoverAbout && (
-          <motion.div
-            className="absolute h-[70%] text-zinc-400 flex justify-center items-center font-rounded rounded-xl shadow-lg right-0 w-[30%] m-4 bg-white"
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            variants={itemVariants}
-          >
-            Content for About
-          </motion.div>
-        )}
-      </AnimatePresence>
+        ))}
+      </motion.div>
 
-      <div className="absolute bottom-4 z-10">
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: -20,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          exit={{
-            opacity: 0,
-            y: 20,
-          }}
-          transition={{
-            duration: 0.5,
-          }}
-          variants={itemVariants}
-          className="h-[50px] w-[300px] flex font-rounded text-zinc-400 bg-white rounded-xl shadow-xl"
-        >
-          {['Work', 'Play', 'About'].map((item) => (
-            <div
-              key={item}
-              onMouseEnter={() => {
-                if (item === 'Work') setHoverWork(true);
-                if (item === 'Play') setHoverPlay(true);
-                if (item === 'About') setHoverAbout(true);
-              }}
-              onMouseLeave={() => {
-                if (item === 'Work') setHoverWork(false);
-                if (item === 'Play') setHoverPlay(false);
-                if (item === 'About') setHoverAbout(false);
-              }}
-              className="flex-grow hover:bg-zinc-100 m-1 flex justify-center items-center rounded-lg hover:shadow-inner transition-all duration-200 select-none"
-            >
-              {item}
-            </div>
-          ))}
-        </motion.div>
-      </div>
-
-      {/* <div className="absolute">
-          <div className="w-[2px] h-screen bg-red-200"></div>
-        </div>
-        <div className="absolute">
-          <div className="w-screen h-[2px] bg-red-200"></div>
-        </div>
-        <div className="absolute bottom-4">
-          <div className="w-screen h-[2px] bg-red-200"></div>
-        </div>
-        <div className="absolute bottom-[66px]">
-          <div className="w-screen h-[2px] bg-red-200"></div>
-        </div> */}
+      {/* <motion.div
+        whileTap={{
+          scale: 0.9,
+        }}
+        whileHover={{
+          opacity: 1,
+          rotate: 8,
+          scale: 1.05,
+          translateX: '85%',
+          translateY: '-45%',
+        }}
+        initial={{
+          opacity: 0,
+          scale: 0.9,
+          translateX: '85%',
+          translateY: '-45%',
+          rotate: 0,
+          transition: {
+            delay: 4,
+          },
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+          translateX: '85%',
+          translateY: '-45%',
+          rotate: 12,
+        }}
+        transition={{
+          type: 'spring',
+          stiffness: 100,
+          damping: 10,
+        }}
+        className="w-[200px] h-[200px] bg-white border-gray-100 shadow-lg z-40 rounded-lg"
+      ></motion.div>
+      <motion.div
+        whileTap={{
+          scale: 0.9,
+        }}
+        whileHover={{
+          opacity: 1,
+          rotate: -54,
+          scale: 1.05,
+          translateX: '-65%',
+          translateY: '-45%',
+        }}
+        initial={{
+          opacity: 0,
+          scale: 0.9,
+          translateX: '-65%',
+          translateY: '-45%',
+          rotate: 0,
+          transition: {
+            delay: 4,
+          },
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+          translateX: '-65%',
+          translateY: '-45%',
+          rotate: -62,
+        }}
+        transition={{
+          type: 'spring',
+          stiffness: 100,
+          damping: 10,
+        }}
+        className="absolute w-[400px] h-[200px] bg-white border-gray-100 shadow-lg z-40 rounded-lg"
+      ></motion.div> */}
     </div>
   );
 }
@@ -157,16 +157,16 @@ function NameSVG() {
   };
   return (
     <motion.div
-      className=" origin-center"
+      className=" origin-center -translate-x-[5%]"
       transition={{ delay: 4, type: 'spring', stiffness: 200, damping: 30 }}
     >
       <div className="">
         <motion.svg
-          width="200"
+          width="300"
           viewBox="0 0 260 52"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="text-zinc-300 z-20 filter"
+          className="text-zinc-700 z-20 filter"
         >
           <defs>
             <filter id="turb">
